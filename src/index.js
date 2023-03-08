@@ -11,11 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 require('./utils/globals');
 
-app.get('/', (req, res) => {
-  res.status(200).send('Express Server Up and Running');
-});
-
-app.use('/api', router);
+app.use('/', router);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
