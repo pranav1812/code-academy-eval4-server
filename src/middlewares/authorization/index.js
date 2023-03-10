@@ -25,7 +25,7 @@ const validateUserToken = async (req, res, next) => {
     next();
     return 0;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     if (error.response) {
       return res.status(401).json({ error: 'Unauthorized' });
     }

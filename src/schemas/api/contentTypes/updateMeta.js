@@ -10,7 +10,7 @@ const validateUpdate = (req, res, next) => {
     id: joi.string().uuid().required(),
   });
   const { error: error2 } = schema.validate(req.params);
-  if (error2) return res.status(400).json({ error: error.message });
+  if (error2) return res.status(400).json({ error: error2.message });
   return next();
 };
 

@@ -68,7 +68,8 @@ const updateFieldNameService = async (id, oldName, newName) => {
       throw new Error('Cannot update field name when there are records');
     }
   }
-
+  console.log('----------------------------------------');
+  console.log(schemaFields, oldName);
   if (!schemaFields[oldName]) {
     throw new Error('Field not found');
   }
@@ -131,6 +132,7 @@ const updateFieldNameService = async (id, oldName, newName) => {
 };
 
 module.exports = {
+  getContentTypeByIdService,
   createSchemaService,
   updateSchemaService,
   updateFieldNameService,
