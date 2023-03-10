@@ -9,20 +9,33 @@ const createContentTypeService = async (contentType) => {
     ...forContentTypeTable,
   });
   await createSchemaService(newContentType.dataValues.id, schema);
-  return true;
+  return newContentType.dataValues;
 };
 
 // include: [records, schema]
-const getContentTypeByIdService = async (id) => {
-  const contentType = await ContentType.findByPk(id, {
+const getContentTypeByIdService = async (id, user) => {
+  // const contentType = await ContentType.findByPk(id, {
+  //   include: ['records', 'schema'],
+  // });
+  // should now match id and user: include ['records', 'schema']
+  const contentType = await ContentType.findOne({
+    where: {
+      id,
+      user,
+    },
     include: ['records', 'schema'],
   });
   return contentType.dataValues;
 };
 
-const getContentTypeListService = async () => {
-  const contentTypes = await ContentType.findAll();
-  return contentTypes.dataValues;
+const getContentTypeListService = async (user) => {
+  const contentTypes = await ContentType.findAll({
+    where: {
+      user,
+    },
+  });
+  console.log(contentTypes);
+  return contentTypes.map((contentType) => contentType.dataValues);
 };
 
 const updateContentTypeMetaService = async (id, name) => {

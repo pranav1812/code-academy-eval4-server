@@ -7,7 +7,7 @@ const {
 
 const getContentTypesList = async (req, res) => {
   try {
-    const contentTypes = await getContentTypeListService();
+    const contentTypes = await getContentTypeListService(req.user.username);
     return res.status(200).json({
       message: 'Content Types List fetched',
       data: contentTypes,
@@ -21,7 +21,7 @@ const getContentTypesList = async (req, res) => {
 const getContentById = async (req, res) => {
   try {
     const { id } = req.params;
-    const contentType = await getContentTypeByIdService(id);
+    const contentType = await getContentTypeByIdService(id, req.user.username);
     return res.status(200).json({
       message: 'Content Type fetched',
       data: contentType,
@@ -34,7 +34,11 @@ const getContentById = async (req, res) => {
 
 const createContentType = async (req, res) => {
   try {
-    const createdContentType = await createContentTypeService(req.body);
+    const toSave = {
+      user: req.user.username,
+      ...req.body,
+    };
+    const createdContentType = await createContentTypeService(toSave);
     return res.status(201).json({
       message: 'Created New Content Type',
       data: createdContentType,

@@ -1,6 +1,7 @@
 const {
   createRecordService,
   updateRecordService,
+  deleteRecordService,
 } = require('../../services/records');
 
 const createRecord = async (req, res) => {
@@ -20,7 +21,8 @@ const createRecord = async (req, res) => {
 const updateRecord = async (req, res) => {
   try {
     const { id } = req.params;
-    const { record } = req.body;
+    const { ...record } = req.body;
+    console.log('Update record called', id, record);
     const updatedRecord = await updateRecordService(id, record);
     return res.status(201).json({
       message: 'Updated Record',
@@ -32,7 +34,20 @@ const updateRecord = async (req, res) => {
   }
 };
 
+const deleteRecord = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await deleteRecordService(id);
+    return res.status(204).json({
+      message: 'Deleted Record',
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createRecord,
   updateRecord,
+  deleteRecord,
 };
